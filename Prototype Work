@@ -1,0 +1,123 @@
+'''
+#https://spotipy.readthedocs.io/en/2.22.1/
+
+# Import libraries
+import spotipy
+import json
+from spotipy.oauth2 import SpotifyClientCredentials
+import requests
+
+#Required credentials
+#Spotify Developer credentials from developers.spotify.com
+client_id = '2920ec1af7074a2f96e859b0246257f3'
+client_secret = 'c986a95cc7f54a9a869ca9969eff9459'
+redirect_uri = 'http://localhost:8888/callback/' #Not using this though 
+
+#Authenticate with Spotify
+client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+'''
+
+'''
+intro = f'''Welcome to our music program! This is a fun program that will build you a custom playlist based on YOUR interests
+and at no cost! You will be able to look into different music reccomendations based on year, genre, etc. and if you like them, 
+add them to your custom playlist! Our hope is that this not only allows you to create a playlist to always enjoy
+jamming to, but that it may also introduce you to new music of different styles, cultures, and backgrounds that you
+may carry with you for many years (hence our Song of the Day! program). We hope you enjoy!'''
+
+print(intro.strip())
+'''
+
+'''
+import random
+
+custom_playlist = []
+
+def song_of_the_day():
+    songofday_list = []
+
+    for i in range(100):
+        song_of_day_playlist = sp.playlist("1ak02xRxcy5UjN0TqoaaWw")
+        song = song_of_day_playlist["tracks"]["items"][i]["track"]["name"]
+        songofday_list.append(song)
+
+    random_song = random.choices(songofday_list,k=1)
+    print(f"Today's song of the day is {random_song}! We hope you give a listen and enjoy!")
+    
+    song_of_add = input(f"Would you like to add {random_song} to your playlist?")
+    
+    if song_of_add == "yes":
+       custom_playlist.append(random_song)
+       print("Song added!")
+                        
+    else:
+       pass 
+    
+song_of_the_day()
+'''
+
+'''
+! pip install selenium
+
+import selenium
+import time
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+'''
+
+'''
+artist_chosen = input(f"Please enter an artist you enjoy ")
+'''
+
+'''
+PATH = Service("C:\Program Files (x86)\chromedriver.exe")
+driver = webdriver.Chrome(service = PATH)
+
+driver.get(f"https://open.spotify.com/search/{artist_chosen}") 
+
+search_link = driver.find_element(By.ID, "main") #locates main tag
+search_link.click() #this command clicks on that link and brings up the page
+
+get_url = driver.current_url
+url = str(get_url)
+
+artist_id1 = url[32:54]
+'''
+
+'''
+def rec_song_by_artist():
+    results = sp.recommendations(seed_artists=[artist_id1])
+    rec_art = results["tracks"][3]['album']['artists'][0]['name']
+
+    PATH = Service("C:\Program Files (x86)\chromedriver.exe")
+    driver = webdriver.Chrome(service = PATH)
+
+    driver.get(f"https://open.spotify.com/search/{rec_art}") 
+
+    search_link2 = driver.find_element(By.ID, "main") #locates link tag
+    search_link2.click() #this command clicks on that link and brings up the page
+
+    get_url2 = driver.current_url
+    url2 = str(get_url2)
+
+    artist_id2 = url2[32:54]
+    
+    rec_songs = sp.artist_top_tracks(artist_id2)
+    rec_song = rec_songs["tracks"][3]["name"]
+    
+    song_of_add1 = input(f"Would you like to add {rec_song} to your playlist?")
+    
+    if song_of_add1 == "yes":
+       custom_playlist.append(rec_song)
+       print("Song added!")
+                        
+    else:
+       pass 
+
+rec_song_by_artist()
+'''
