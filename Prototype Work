@@ -20,8 +20,8 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 '''
 intro = f'''Welcome to our music program! This is a fun program that will build you a custom playlist based on YOUR interests
-and at no cost! You will be able to look into different music reccomendations based on year, genre, etc. and if you like them, 
-add them to your custom playlist! Our hope is that this not only allows you to create a playlist to always enjoy
+and at no cost! You will be able to look into different music reccomendations based on year, genre, etc. and if you like 
+them, add them to your custom playlist! Our hope is that this not only allows you to create a playlist to always enjoy
 jamming to, but that it may also introduce you to new music of different styles, cultures, and backgrounds that you
 may carry with you for many years (hence our Song of the Day! program). We hope you enjoy!'''
 
@@ -44,9 +44,9 @@ def song_of_the_day():
     random_song = random.choices(songofday_list,k=1)
     print(f"Today's song of the day is {random_song}! We hope you give a listen and enjoy!")
     
-    song_of_add = input(f"Would you like to add {random_song} to your playlist?")
+    song_of_add = input(f"Would you like to add {random_song} to your playlist?  ")
     
-    if song_of_add == "yes":
+    if song_of_add == "yes" or song_of_add == "Yes":
        custom_playlist.append(random_song)
        print("Song added!")
                         
@@ -71,7 +71,7 @@ from selenium.webdriver.support import expected_conditions as EC
 '''
 
 '''
-artist_chosen = input(f"Please enter an artist you enjoy ")
+artist_chosen = input(f"Please enter an artist you enjoy:  ")
 '''
 
 '''
@@ -103,16 +103,17 @@ def rec_song_by_artist():
     search_link2.click() #this command clicks on that link and brings up the page
 
     get_url2 = driver.current_url
+    driver.quit()
     url2 = str(get_url2)
 
     artist_id2 = url2[32:54]
     
     rec_songs = sp.artist_top_tracks(artist_id2)
-    rec_song = rec_songs["tracks"][3]["name"]
+    rec_song = rec_songs["tracks"][0]["name"]
     
-    song_of_add1 = input(f"Would you like to add {rec_song} to your playlist?")
+    song_of_add1 = input(f"Would you like to add {rec_song}, by {rec_art} to your playlist?  ")
     
-    if song_of_add1 == "yes":
+    if song_of_add1 == "yes" or song_of_add1 == "Yes":
        custom_playlist.append(rec_song)
        print("Song added!")
                         
@@ -120,4 +121,32 @@ def rec_song_by_artist():
        pass 
 
 rec_song_by_artist()
+'''
+
+'''
+genres = sp.recommendation_genre_seeds()
+
+print(genres)
+'''
+
+'''
+genre_choice = input(f"Please choose a genre from the list: ")
+'''
+
+'''
+def rec_song_by_genre():
+    rec1 = sp.recommendations(seed_genres=[genre_choice], limit=10)
+    rec_song_by_genre = rec1["tracks"][0]["name"]
+    rec_art_by_genre = rec1["tracks"][0]["artists"][0]['name']
+    
+    song_of_add2 = input(f"Would you like to add {rec_song_by_genre}, by {rec_art_by_genre} to your playlist?  ")
+    
+    if song_of_add2 == "yes" or song_of_add2 == "Yes":
+       custom_playlist.append(rec_song_by_genre)
+       print("Song added!")
+                        
+    else:
+       pass 
+
+rec_song_by_genre()
 '''
