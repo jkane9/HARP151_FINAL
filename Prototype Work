@@ -57,36 +57,11 @@ song_of_the_day()
 '''
 
 '''
-! pip install selenium
-
-import selenium
-import time
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-'''
-
-'''
 artist_chosen = input(f"Please enter an artist you enjoy:  ")
-'''
 
-'''
-PATH = Service("C:\Program Files (x86)\chromedriver.exe")
-driver = webdriver.Chrome(service = PATH)
-
-driver.get(f"https://open.spotify.com/search/{artist_chosen}") 
-
-search_link = driver.find_element(By.ID, "main") #locates main tag
-search_link.click() #this command clicks on that link and brings up the page
-
-get_url = driver.current_url
-url = str(get_url)
-
-artist_id1 = url[32:54]
+results1 = sp.search(q=artist_chosen, type='artist', limit=1)
+for artist in results1['artists']['items']:
+    artist_id1 = artist['id']
 '''
 
 '''
@@ -94,19 +69,9 @@ def rec_song_by_artist():
     results = sp.recommendations(seed_artists=[artist_id1])
     rec_art = results["tracks"][3]['album']['artists'][0]['name']
 
-    PATH = Service("C:\Program Files (x86)\chromedriver.exe")
-    driver = webdriver.Chrome(service = PATH)
-
-    driver.get(f"https://open.spotify.com/search/{rec_art}") 
-
-    search_link2 = driver.find_element(By.ID, "main") #locates link tag
-    search_link2.click() #this command clicks on that link and brings up the page
-
-    get_url2 = driver.current_url
-    driver.quit()
-    url2 = str(get_url2)
-
-    artist_id2 = url2[32:54]
+    results2 = sp.search(q=rec_art, type='artist', limit=1)
+    for k in results2['artists']['items']:
+        artist_id2 = k['id']
     
     rec_songs = sp.artist_top_tracks(artist_id2)
     rec_song = rec_songs["tracks"][0]["name"]
