@@ -6,8 +6,8 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import requests
 import random
 import time
-from tkinter import *
 import tkinter as tk
+from tkinter import *
 from tkinter import ttk
 
 #Required credentials
@@ -27,12 +27,13 @@ class main:
         self.root = root
         self.root.title("Custom Music Playlist")
         self.root.geometry("1000x1000")
+        self.root.configure(bg = "light blue")
         
-        self.canvas = Canvas(self.root, width=800, height=250, bg="khaki1")
+        self.canvas = Canvas(self.root, width=900, height=250, bg="khaki1")
         self.canvas.pack()
         
-        self.display = self.canvas.create_text(415, 125, text="", fill="black", font=('Helvetica 15 bold'))
-        self.display2 = self.canvas.create_text(415, 215, text="", fill="black", font=('Helvetica 15 bold'))
+        self.display = self.canvas.create_text(460, 125, text="", fill="black", font=('Helvetica 15 bold'))
+        self.display2 = self.canvas.create_text(460, 215, text="", fill="black", font=('Helvetica 15 bold'))
         
         self.feedback = Label(root, text="", pady=10, font=("arial", 15, "bold"))
         
@@ -98,7 +99,7 @@ class main:
         self.no_button.destroy()
         self.next_page1.destroy()
         
-        self.display2 = self.canvas.create_text(415, 215, text="", fill="black", font=('Helvetica 15 bold'))
+        self.display2 = self.canvas.create_text(460, 215, text="", fill="black", font=('Helvetica 15 bold'))
         self.feedback = Label(root, text="", pady=10, font=("arial", 15, "bold"))
         
         artist_chosen = f"Please enter an artist you enjoy, and we will reccomend a song based on a similar artist:"
@@ -161,11 +162,12 @@ class main:
         self.no_button1.destroy()
         self.next_page2.destroy()
         
-        genres = sp.recommendation_genre_seeds()
+        genres_choices = ['alternative,','classical,','country,','edm,','folk,','indie-pop,','latino,','pop,','hip-hop,','rock,','work-out']
         
-        self.display2 = self.canvas.create_text(415, 215, text="", fill="black", font=('Helvetica 15 bold'))
+        self.display2 = self.canvas.create_text(460, 215, text="", fill="black", font=('Helvetica 15 bold'))
         self.feedback = Label(root, text="", pady=10, font=("arial", 15, "bold"))
-        self.genre_list = Label(root, text = genres, pady = 10, font=("arial",5))
+        
+        self.genre_list = Label(root, text = genres_choices, pady = 10, font=("arial",10,"bold"))
         self.genre_list.pack()
         
         genre_choice = "Please choose a genre from the list, and we will reccomend a song based on that genre"
@@ -184,7 +186,7 @@ class main:
             rec_art_by_genre = rec1["tracks"][0]["artists"][0]['name']
             genre_song.append(rec_song_by_genre)
 
-            song_of_add2 = f"Would you like to add {rec_song_by_genre}, by {rec_art_by_genre} to your playlist? Type YES to add it!"
+            song_of_add2 = f"Would you like to add {rec_song_by_genre}, by {rec_art_by_genre} to your playlist?"
             self.canvas.itemconfig(self.display2, text=song_of_add2, width=500)
 
         self.search_button1 = Button(root, text="Search", command=search_genre)
@@ -217,7 +219,7 @@ class main:
         self.no_button2.destroy()
         self.next_page3.destroy()
         
-        self.display2 = self.canvas.create_text(415, 215, text="", fill="black", font=('Helvetica 15 bold'))
+        self.display2 = self.canvas.create_text(460, 215, text="", fill="black", font=('Helvetica 15 bold'))
         self.feedback = Label(root, text="", pady=10, font=("arial", 15, "bold"))
         
         album_chosen = "All playlists need some familiarity, so please enter your favorite album, and we will choose a song from that album:"
@@ -247,7 +249,7 @@ class main:
             random_choice_alb = random.choice(random_songs_from_album)
             random_album_song.append(random_choice_alb)
 
-            song_of_add3 = f"Would you like to add {random_choice_alb} to your playlist? Type YES to add it!"
+            song_of_add3 = f"Would you like to add {random_choice_alb} to your playlist?"
             self.canvas.itemconfig(self.display2, text=song_of_add3, width=500)
 
         self.search_button2 = Button(root, text="Search", command=search_album)
@@ -280,7 +282,7 @@ class main:
         self.no_button3.destroy()
         self.next_page4.destroy()
         
-        self.display2 = self.canvas.create_text(415, 215, text="", fill="black", font=('Helvetica 15 bold'))
+        self.display2 = self.canvas.create_text(460, 215, text="", fill="black", font=('Helvetica 15 bold'))
         self.feedback = Label(root, text="", pady=10, font=("arial", 15, "bold"))
         
         decade = "Please enter your FAVORITE decade for music, and we will reccomend one of the top hits from that decade:" 
